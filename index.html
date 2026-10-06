@@ -1,0 +1,266 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Wi-Fi Access - Sofia Boutique Residence</title>
+    <!-- Tailwind CSS -->
+    <script src="https://cdn.tailwindcss.com"></script>
+
+    <!-- Google Fonts Baru: Cinzel, Bodoni Moda, Italiana, & Plus Jakarta Sans -->
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Bodoni+Moda:ital,opsz,wght@0,6..96,400..700;1,6..96,400..700&family=Cinzel:wght@400;500;600;700&family=Italiana&family=Plus+Jakarta+Sans:wght@300;400;500;600;700&display=swap"
+      rel="stylesheet"
+    />
+
+    <!-- FontAwesome Icons -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" />
+
+    <script>
+      tailwind.config = {
+        theme: {
+          extend: {
+            colors: {
+              espresso: {
+                800: '#2A2425',
+                900: '#1F1A1B',
+              },
+              'warm-slate': {
+                700: '#4A4845',
+                800: '#33312E',
+                900: '#21201E',
+              },
+            },
+            fontFamily: {
+              cinzel: ['"Cinzel"', 'serif'],
+              bodoni: ['"Bodoni Moda"', 'serif'],
+              italiana: ['"Italiana"', 'serif'],
+              sans: ['"Plus Jakarta Sans"', 'sans-serif'],
+            },
+          },
+        },
+      };
+    </script>
+
+    <style>
+      @keyframes subtleFloat {
+        0% {
+          transform: scale(1);
+        }
+        50% {
+          transform: scale(1.03);
+        }
+        100% {
+          transform: scale(1);
+        }
+      }
+
+      .bg-subtle-zoom {
+        animation: subtleFloat 28s ease-in-out infinite;
+      }
+
+      .frosted-light-card {
+        backdrop-filter: blur(16px);
+        -webkit-backdrop-filter: blur(16px);
+      }
+
+      .input-glow:focus-within {
+        border-color: #1f1a1b;
+      }
+
+      .bg-brown-gradient {
+        background: linear-gradient(135deg, #2a2425 0%, #1f1a1b 50%, #171314 100%);
+      }
+      .bg-brown-gradient:hover {
+        background: linear-gradient(135deg, #362e2f 0%, #2a2425 50%, #1f1a1b 100%);
+      }
+
+      /* FILTER CSS DIPERBARUI: LOGO SAMAA WARNANNYA DENGAN GRADIENT TOMBOL CONNECT (#1f1a1b / espresso-900) */
+      .logo-tint-brown {
+        filter: brightness(0) saturate(100%) invert(8%) sepia(8%) saturate(1030%) hue-rotate(305deg) brightness(96%) contrast(92%);
+      }
+    </style>
+  </head>
+  <body class="bg-[#1a1815] text-warm-slate-800 font-sans min-h-screen relative flex flex-col justify-between select-none overflow-x-hidden">
+    <!-- BACKGROUND IMAGE OVERLAY -->
+    <div class="fixed inset-0 z-0 overflow-hidden pointer-events-none">
+      <img
+        id="bg-img"
+        src="bg.jpg"
+        alt="Sofia Boutique Residence Classic Suite"
+        class="w-full h-full object-cover bg-subtle-zoom transition-opacity duration-700"
+        onerror="this.src = 'https://images.unsplash.com/photo-1618773928121-c32242e63f39?q=80&w=2070&auto=format&fit=crop'"
+      />
+
+      <div class="absolute inset-0 bg-gradient-to-t from-black/50 via-black/20 to-black/30"></div>
+      <div class="absolute inset-0 bg-warm-slate-900/10"></div>
+    </div>
+
+    <!-- HEADER TOP -->
+    <header class="relative z-10 w-full max-w-5xl mx-auto p-4 flex items-center justify-between text-xs text-white/90">
+      <div class="flex items-center gap-2 bg-black/30 backdrop-blur-md px-3.5 py-1.5 rounded-full border border-white/20">
+        <span class="w-2 h-2 rounded-full bg-emerald-400"></span>
+        <span class="font-medium tracking-wide text-[11px] sm:text-xs">Complimentary Guest Wi-Fi</span>
+      </div>
+
+      <div class="flex items-center gap-2">
+        <button onclick="toggleHelpModal()" class="bg-black/30 backdrop-blur-md hover:bg-black/50 px-3.5 py-1.5 rounded-full border border-white/20 text-white font-medium transition flex items-center gap-1.5 text-[11px] sm:text-xs">
+          <i class="fa-solid fa-circle-question text-white/80"></i>
+          <span>Assistance</span>
+        </button>
+      </div>
+    </header>
+
+    <!-- MAIN LOGIN CARD -->
+    <main class="relative z-10 my-auto px-4 py-5 flex justify-center items-center w-full">
+      <div class="w-full max-w-[360px] bg-[#FDFBF7]/95 frosted-light-card rounded-2xl p-6 border border-espresso-900/10 shadow-2xl transition-all duration-300">
+        <!-- LOGO & BRANDING HEADER -->
+        <div class="text-center mb-5">
+          <img src="SBR2.png" alt="Sofia Boutique Residence" class="logo-tint-brown max-w-[180px] sm:max-w-[200px] h-auto object-contain mb-2 mx-auto" />
+          <div class="w-10 h-[1px] bg-gradient-to-r from-transparent via-espresso-900 to-transparent mx-auto my-2.5"></div>
+          <p class="text-[11px] sm:text-xs text-warm-slate-700/80 font-normal tracking-wide">Please enter your access details to connect.</p>
+        </div>
+
+        <!-- FORM MIKROTIK HOTSPOT -->
+        <form id="hotspot-form" name="login" action="$(link-login-only)" method="post" onsubmit="handleFormSubmit(event)" class="space-y-3.5">
+          <input type="hidden" name="dst" value="https://www.instagram.com/sofiaboutiqueresidence" />
+          <input type="hidden" name="popup" value="true" />
+
+          <!-- USERNAME FIELD -->
+          <div>
+            <label for="username" class="block text-[10px] sm:text-[11px] font-bold text-warm-slate-800 uppercase tracking-widest mb-1"> ROOM NUMBER </label>
+            <div class="relative rounded-xl border border-warm-slate-800/20 bg-white/90 input-glow transition-all">
+              <span class="absolute inset-y-0 left-0 pl-3.5 flex items-center pointer-events-none text-espresso-900">
+                <i class="fa-solid fa-user text-xs"></i>
+              </span>
+              <input
+                type="text"
+                id="username"
+                name="username"
+                value=""
+                required
+                placeholder="Room Number"
+                autocomplete="username"
+                class="w-full bg-transparent pl-9 pr-3 py-2.5 text-xs sm:text-sm text-warm-slate-900 placeholder-warm-slate-700/40 focus:outline-none rounded-xl font-medium"
+              />
+            </div>
+          </div>
+
+          <!-- PASSWORD FIELD -->
+          <div>
+            <label for="password" class="block text-[10px] sm:text-[11px] font-bold text-warm-slate-800 uppercase tracking-widest mb-1"> PASSWORD </label>
+            <div class="relative rounded-xl border border-warm-slate-800/20 bg-white/90 input-glow transition-all">
+              <span class="absolute inset-y-0 left-0 pl-3.5 flex items-center pointer-events-none text-espresso-900">
+                <i class="fa-solid fa-key text-xs"></i>
+              </span>
+              <input
+                type="password"
+                id="password"
+                name="password"
+                required
+                placeholder="Enter Password"
+                autocomplete="current-password"
+                class="w-full bg-transparent pl-9 pr-10 py-2.5 text-xs sm:text-sm text-warm-slate-900 placeholder-warm-slate-700/40 focus:outline-none rounded-xl font-medium"
+              />
+
+              <button type="button" onclick="togglePasswordVisibility()" title="Toggle password visibility" class="absolute inset-y-0 right-0 pr-3 flex items-center text-warm-slate-700/50 hover:text-espresso-900 transition">
+                <i id="password-toggle-icon" class="fa-solid fa-eye text-xs"></i>
+              </button>
+            </div>
+          </div>
+
+          <!-- SUBMIT BUTTON -->
+          <button
+            type="submit"
+            id="submit-btn"
+            class="w-full mt-2 py-3 px-4 bg-brown-gradient text-white font-bold text-xs tracking-widest uppercase rounded-xl transition-all duration-200 shadow-md hover:shadow-lg active:scale-[0.99] flex items-center justify-center gap-2"
+          >
+            <i class="fa-solid fa-wifi text-xs"></i>
+            <span id="btn-text">CONNECT TO WI-FI</span>
+          </button>
+        </form>
+
+        <div id="error-box" class="hidden mt-3 p-2.5 bg-rose-50 border border-rose-200 rounded-xl text-rose-700 text-[11px] text-center font-medium"></div>
+
+        <!-- HELPER / RECEPTION LINK -->
+        <div class="mt-5 pt-4 border-t border-warm-slate-800/10 text-center">
+          <p class="text-[11px] sm:text-xs text-warm-slate-700/80">
+            Need your login details?
+            <button onclick="toggleHelpModal()" class="text-espresso-900 hover:text-espresso-800 font-semibold underline underline-offset-2 ml-0.5">Contact Front Desk</button>
+          </p>
+        </div>
+      </div>
+    </main>
+
+    <!-- FOOTER COPYRIGHT & MANAGEMENT -->
+    <footer class="relative z-10 p-4 text-center text-[10px] sm:text-[11px] text-white/80 font-normal tracking-wide space-y-1">
+      <p>© Powered & Maintained by IT Sofia Boutique Residence 2026</p>
+    </footer>
+
+    <!-- HELPER MODAL -->
+    <div id="help-modal" class="hidden fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/60 backdrop-blur-sm">
+      <div class="bg-[#FAF7F2] border border-espresso-900/10 rounded-2xl p-5 sm:p-6 max-w-sm w-full shadow-2xl relative">
+        <div class="w-9 h-9 rounded-full bg-espresso-900/5 text-espresso-900 flex items-center justify-center mx-auto mb-2.5 text-base">
+          <i class="fa-solid fa-headset"></i>
+        </div>
+        <h3 class="font-cinzel text-base font-semibold text-center text-warm-slate-900 mb-1 tracking-wide">Guest WiFi Support</h3>
+        <div class="space-y-2.5 text-xs text-warm-slate-800/80 leading-relaxed my-3.5">
+          <p class="bg-white p-2.5 rounded-xl border border-warm-slate-800/10">
+            <strong class="text-warm-slate-900 block mb-0.5">Hotel Guests:</strong>
+            Your Username and Password are provided on your Key Card Sleeve or Welcome Voucher.
+          </p>
+          <p class="bg-white p-2.5 rounded-xl border border-warm-slate-800/10">
+            <strong class="text-warm-slate-900 block mb-0.5">Direct Assistance:</strong>
+            Dial <strong>"0"</strong> on your in-room telephone to speak with Front Desk / Butler.
+          </p>
+        </div>
+        <button onclick="toggleHelpModal()" class="w-full py-2.5 bg-brown-gradient text-white font-bold rounded-xl text-xs uppercase tracking-wider transition">Close</button>
+      </div>
+    </div>
+
+    <!-- JAVASCRIPT FUNCTIONS -->
+    <script>
+      function togglePasswordVisibility() {
+        const passwordInput = document.getElementById('password');
+        const toggleIcon = document.getElementById('password-toggle-icon');
+
+        if (passwordInput.type === 'password') {
+          passwordInput.type = 'text';
+          toggleIcon.className = 'fa-solid fa-eye-slash text-xs';
+        } else {
+          passwordInput.type = 'password';
+          toggleIcon.className = 'fa-solid fa-eye text-xs';
+        }
+      }
+
+      function toggleHelpModal() {
+        const modal = document.getElementById('help-modal');
+        modal.classList.toggle('hidden');
+      }
+
+      function handleFormSubmit(event) {
+        const form = event.target;
+        if (form.action.includes('$(link-login-only)')) {
+          event.preventDefault();
+          const btn = document.getElementById('submit-btn');
+          const btnText = document.getElementById('btn-text');
+          const errorBox = document.getElementById('error-box');
+
+          errorBox.classList.add('hidden');
+          btnText.innerText = 'AUTHENTICATING...';
+          btn.disabled = true;
+
+          setTimeout(() => {
+            btnText.innerText = 'REDIRECTING...';
+            btn.className = 'w-full mt-2 py-3 px-4 bg-emerald-600 text-white font-bold text-xs tracking-widest uppercase rounded-xl transition-all duration-200 shadow-sm flex items-center justify-center gap-2';
+            setTimeout(() => {
+              window.location.href = 'https://www.instagram.com/sofiaboutiqueresidence';
+            }, 800);
+          }, 1200);
+        }
+      }
+    </script>
+  </body>
+</html>
